@@ -1,12 +1,23 @@
-#ifndef MAIN_H
-#define MAIN_H
+#include "main.h"
+#include <stdio.h>
 
-int _putchar(char c);
-void print_alphabet(void);
-void print_alphabet_x10(void);
-int _islower(int c);
-int _isalpha(int c);
-int print_sign(int n);
-int _abs(int n);
+/**
+ * main - check the code
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+ int r;
 
-#endif
+ print_last_digit(98);
+ r = print_last_digit(0);
+ _putchar('0' + r);
+ _putchar('\n');
+
+ r = print_last_digit(-1024);
+ _putchar('0' + r);
+ _putchar('\n');
+
+ return (0);
+}
