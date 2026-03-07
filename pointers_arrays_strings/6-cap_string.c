@@ -4,7 +4,7 @@
 	* cap_string - capitalizes all words of a string
 	* @str: string
 	*
-	* Return: pointer to string
+	* Return: pointer to the string
 	*/
 char *cap_string(char *str)
 {
@@ -18,14 +18,18 @@ char *cap_string(char *str)
 	str[i] == '!'  str[i] == '?'  str[i] == '"' ||
 	str[i] == '('  str[i] == ')'  str[i] == '{' ||
 	str[i] == '}')
+	{
 	capitalize = 1;
+	}
 	else if (capitalize && str[i] >= 'a' && str[i] <= 'z')
 	{
 	str[i] -= 32;
 	capitalize = 0;
 	}
 	else
+	{
 	capitalize = 0;
+	}
 
 	i++;
 	}
