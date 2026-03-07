@@ -9,7 +9,7 @@
 char *cap_string(char *str)
 {
 	int i = 0;
-	int capitalize = 1;
+	int cap = 1;
 
 	while (str[i])
 	{
@@ -19,16 +19,16 @@ char *cap_string(char *str)
 	str[i] == '('  str[i] == ')'  str[i] == '{' ||
 	str[i] == '}')
 	{
-	capitalize = 1;
+	cap = 1;
 	}
-	else if (capitalize && str[i] >= 'a' && str[i] <= 'z')
+	else if (cap && str[i] >= 'a' && str[i] <= 'z')
 	{
 	str[i] -= 32;
-	capitalize = 0;
+	cap = 0;
 	}
 	else
 	{
-	capitalize = 0;
+	cap = 0;
 	}
 
 	i++;
