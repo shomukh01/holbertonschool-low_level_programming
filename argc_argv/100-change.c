@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int count_coins(int cents);
+
 /**
  * main - prints minimum number of coins for change
  * @argc: argument count
@@ -10,7 +12,7 @@
 
 int main(int argc, char *argv[])
 {
-	int cents, coins = 0;
+	int cents;
 
 	if (argc != 2)
 	{
@@ -20,11 +22,23 @@ int main(int argc, char *argv[])
 
 	cents = atoi(argv[1]);
 
+	printf("%d\n", count_coins(cents));
+
+	return (0);
+}
+
+/**
+ * count_coins - calculates minimum coins
+ * @cents: amount
+ * Return: coins number
+ */
+
+int count_coins(int cents)
+{
+	int coins = 0;
+
 	if (cents <= 0)
-	{
-		printf("0\n");
 		return (0);
-	}
 
 	while (cents >= 25)
 	{
@@ -52,7 +66,5 @@ int main(int argc, char *argv[])
 		coins++;
 	}
 
-	printf("%d\n", coins);
-
-	return (0);
+	return (coins);
 }
