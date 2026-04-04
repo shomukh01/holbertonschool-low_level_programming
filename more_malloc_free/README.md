@@ -1,1 +1,1 @@
-gg
+Structures and typedef project
