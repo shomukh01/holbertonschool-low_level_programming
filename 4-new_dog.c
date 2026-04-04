@@ -3,9 +3,9 @@
 
 /**
  * _strlen - returns the length of a string
- * @s: string
+ * @s: string to measure
  *
- * Return: length of string
+ * Return: length of the string
  */
 int _strlen(char *s)
 {
@@ -18,8 +18,8 @@ int _strlen(char *s)
 
 /**
  * _strcpy - copies a string
- * @dest: destination
- * @src: source
+ * @dest: destination buffer
+ * @src: source string
  *
  * Return: pointer to dest
  */
