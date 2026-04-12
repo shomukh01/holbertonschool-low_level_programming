@@ -1,7 +1,10 @@
-#include "variadic_functions.h"
+#ifndef VARIADIC_FUNCTIONS_H
+#define VARIADIC_FUNCTIONS_H
 
-int main(void)
-{
-	print_numbers(", ", 4, 0, 98, -1024, 402);
-	return (0);
-}
+#include <stdarg.h>
+
+int sum_them_all(const unsigned int n, ...);
+void print_numbers(const char *separator, const unsigned int n, ...);
+
+#endif
+
