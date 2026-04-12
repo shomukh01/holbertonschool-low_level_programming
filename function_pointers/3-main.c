@@ -37,3 +37,4 @@ int main(int argc, char *argv[])
 	printf("%d\n", func(a, b));
 	return (0);
 }
+
