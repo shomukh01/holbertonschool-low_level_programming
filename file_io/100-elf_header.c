@@ -1,4 +1,3 @@
-cat > 100-elf_header.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -25,27 +24,37 @@ void print_magic(unsigned char *e_ident)
 void print_class(unsigned char *e_ident)
 {
 	printf("  Class:                             ");
-	if (e_ident[EI_CLASS] == ELFCLASS64)
+	switch (e_ident[EI_CLASS])
+	{
+	case ELFCLASS64:
 		printf("ELF64\n");
-	else if (e_ident[EI_CLASS] == ELFCLASS32)
+		break;
+	case ELFCLASS32:
 		printf("ELF32\n");
-	else
+		break;
+	default:
 		printf("<unknown>\n");
+	}
 }
 
 /**
-	* print_data - prints data format
+	* print_data - prints data
 	* @e_ident: identifier
 	*/
 void print_data(unsigned char *e_ident)
 {
 	printf("  Data:                              ");
-	if (e_ident[EI_DATA] == ELFDATA2LSB)
+	switch (e_ident[EI_DATA])
+	{
+	case ELFDATA2LSB:
 		printf("2's complement, little endian\n");
-	else if (e_ident[EI_DATA] == ELFDATA2MSB)
+		break;
+	case ELFDATA2MSB:
 		printf("2's complement, big endian\n");
-	else
+		break;
+	default:
 		printf("<unknown>\n");
+	}
 }
 
 /**
@@ -67,14 +76,20 @@ void print_osabi(unsigned char *e_ident)
 	printf("  OS/ABI:                            ");
 	switch (e_ident[EI_OSABI])
 	{
-		case ELFOSABI_SYSV:
-			printf("UNIX - System V\n");
-			break;
-		case ELFOSABI_LINUX:
-			printf("UNIX - Linux\n");
-			break;
-		default:
-			printf("<unknown>\n");
+	case ELFOSABI_SYSV:
+		printf("UNIX - System V\n");
+		break;
+	case ELFOSABI_LINUX:
+		printf("UNIX - Linux\n");
+		break;
+	case ELFOSABI_NETBSD:
+		printf("UNIX - NetBSD\n");
+		break;
+	case ELFOSABI_SOLARIS:
+		printf("UNIX - Solaris\n");
+		break;
+	default:
+		printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 	}
 }
 
@@ -89,9 +104,32 @@ void print_abi(unsigned char *e_ident)
 }
 
 /**
+	* print_type - prints type
+	* @type: type
+	*/
+void print_type(uint16_t type)
+{
+	printf("  Type:                              ");
+	switch (type)
+	{
+	case ET_EXEC:
+		printf("EXEC (Executable file)\n");
+		break;
+	case ET_DYN:
+		printf("DYN (Shared object file)\n");
+		break;
+	case ET_REL:
+		printf("REL (Relocatable file)\n");
+		break;
+	default:
+		printf("<unknown>\n");
+	}
+}
+
+/**
 	* main - entry
-	* @argc: arg count
-	* @argv: args
+	* @argc: argument count
+	* @argv: arguments
 	*
 	* Return: 0
 	*/
@@ -102,20 +140,20 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		dprintf(2, "Usage: elf_header elf_filename\n");
+		dprintf(STDERR_FILENO, "Usage: elf_header elf_filename\n");
 		exit(98);
 	}
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		dprintf(2, "Error: Can't read file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
 
 	if (read(fd, &header, sizeof(header)) != sizeof(header))
 	{
-		dprintf(2, "Error: Can't read ELF header\n");
+		dprintf(STDERR_FILENO, "Error: Can't read ELF header\n");
 		close(fd);
 		exit(98);
 	}
@@ -125,7 +163,7 @@ int main(int argc, char **argv)
 	    header.e_ident[EI_MAG2] != ELFMAG2 ||
 	    header.e_ident[EI_MAG3] != ELFMAG3)
 	{
-		dprintf(2, "Error: Not an ELF file\n");
+		dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 		close(fd);
 		exit(98);
 	}
@@ -138,8 +176,8 @@ int main(int argc, char **argv)
 	print_version(header.e_ident);
 	print_osabi(header.e_ident);
 	print_abi(header.e_ident);
+	print_type(header.e_type);
 
-	printf("  Type:                              %x\n", header.e_type);
 	printf("  Entry point address:               0x%lx\n",
 	       header.e_entry);
 
