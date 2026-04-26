@@ -178,8 +178,12 @@ int main(int argc, char **argv)
 	print_abi(header.e_ident);
 	print_type(header.e_type);
 
-	printf("  Entry point address:               0x%lx\n",
-	       header.e_entry);
+	if (header.e_ident[EI_CLASS] == ELFCLASS32)
+		printf("  Entry point address:               0x%x\n",
+		       (unsigned int)header.e_entry);
+	else
+		printf("  Entry point address:               0x%lx\n",
+		       header.e_entry);
 
 	close(fd);
 	return (0);
