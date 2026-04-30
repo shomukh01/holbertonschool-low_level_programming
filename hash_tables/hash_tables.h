@@ -1,4 +1,3 @@
-cat > hash_tables.h << 'EOF'
 #ifndef HASH_TABLES_H
 #define HASH_TABLES_H
 
@@ -31,4 +30,3 @@ typedef struct hash_table_s
 hash_table_t *hash_table_create(unsigned long int size);
 
 #endif
-EOF
